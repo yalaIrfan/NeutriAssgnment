@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # Step 2 : inside project folder run this commmond 'npm install'
 
-# Step 3 : after completing npm packeges run this commond 'ng build'
+# Step 3 : after completing installation of npm packeges run this commond 'ng build'
 
 # Step 4: after completing step 3 run this commond 'node server'.
 
