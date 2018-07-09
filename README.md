@@ -12,7 +12,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 make sure you are in project directory..!
 
-
+your project is running on 'localhost:3000'
 
 Developer :Mohammadirfan H Y.
 mail: mailmeirfan1993@gmail.com
