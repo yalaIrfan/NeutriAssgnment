@@ -115,7 +115,7 @@ export class ProductComponent implements OnInit {
     this.http.post('/api/products', fd).subscribe((res) => {
       this.messageSuc = 'Product created..!';
       this.route.navigate(['/product']);
-
+      this.prodForm.reset();
       this.messageErr = '';
       this.getAllProducts();
     },
