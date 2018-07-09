@@ -12,9 +12,11 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   getAllProducts() {
-    let token = localStorage.getItem('token');
-    let headers = new HttpHeaders({ 'token': `bearer ${token}` });
-    return this.http.get(this._products, { headers });
+    // let token = localStorage.getItem('token');
+    //let headers = new HttpHeaders({ 'token': `bearer ${token}` });
+    //  return this.http.get(this._products, { headers });
+  //Authontication interceptor
+    return this.http.get(this._products);
 
   }
 
