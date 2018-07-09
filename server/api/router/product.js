@@ -33,8 +33,7 @@ const upload = multer({
 })
 
 
-router.get('/', productController.product_get_all);
-//router.post('/', auth, upload.single('productImage'), productController.product_create);
+router.get('/', auth, productController.product_get_all);
 
 
 router.post('/', upload.single('productImage'), auth, (req, res, next) => {
@@ -43,6 +42,7 @@ router.post('/', upload.single('productImage'), auth, (req, res, next) => {
       _id: mongoose.Types.ObjectId(),
       name: req.body.name,
       price: req.body.price,
+      email: req.userData.email,
       productImage: req.file.path
     });
     product.save().then(result => {

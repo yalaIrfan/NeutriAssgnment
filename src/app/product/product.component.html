@@ -1,48 +1,52 @@
-<div style="width: 100%;text-align: right">
+<div style="width: 100%;text-align: right;background: rgb(172, 170, 170); margin: auto">
 
   <span *ngIf="authonticated=='true'" style="margin: 0.5%">
-    you are loggedin..! 
+    Welcome - {{user}}..!
   </span>&nbsp;
   <button mat-raised-button color="primary" style="margin: 1%" (click)="logout()">Logout </button>
-  
+
 </div>
 <div class="main">
   <div style="width: 70%">
-    <div *ngIf="products">
-    
-      <mat-grid-list cols="2" rowHeight="1:1">
-          <mat-grid-tile  *ngFor="let p of products;let i=index">
-<mat-card class="example-card">
-  <mat-card-header>
-    <mat-card-title>  {{p.name}}</mat-card-title>
-   
-  </mat-card-header>
-  <img mat-card-image src="{{p.productImage}}" style="width:100%">
-
-  <mat-card-actions>
-   
-<a mat-stroked-button routerLink=".">{{p.price}}&nbsp;$</a>
-  </mat-card-actions>
-</mat-card>
-</mat-grid-tile>
-</mat-grid-list>
-
+    <div *ngIf="noRec" style="text-align: center">
+      <h3>{{noRec}}</h3>
     </div>
-    <div *ngIf="!products">
-      <h3>No products found..!</h3>
+    <div *ngIf="!noRec" style="text-align: center">
+      <h3>Your products</h3>
+    </div>
+
+    <div *ngIf="products">
+
+      <mat-grid-list cols="2" rowHeight="1:1">
+        <mat-grid-tile *ngFor="let p of products;let i=index">
+          <mat-card class="example-card">
+            <mat-card-header>
+              <mat-card-title> {{p.name}}</mat-card-title>
+
+            </mat-card-header>
+            <img mat-card-image src="{{p.productImage}}" style="width:100%">
+
+            <mat-card-actions>
+
+              <a mat-stroked-button routerLink=".">{{p.price}}&nbsp;$</a>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+
     </div>
 
   </div>
 
   <div style="width: 30%;height: auto">
     <div style="height: 50%;line-height: 15px;padding: 1%">
-      <button mat-raised-button color="warn" >New Product</button>
+      <button mat-raised-button color="warn">New Product</button>
 
       <!-- <form class="example-form"> -->
       <form class="example-form" [formGroup]="prodForm">
 
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Product name" formControlName="name" required>
+          <input matInput placeholder="Product name" formControlName="name" required maxlength="30">
         </mat-form-field>
         <div *ngIf="prodForm.controls['name'].touched && prodForm.controls['name'].invalid">
           <div *ngIf="prodForm.get('name').hasError('required')">
@@ -81,11 +85,18 @@
         <br/>
 
 
-        <!-- <button mat-raised-button (click)="addProduct(prodForm.value)" [disabled]="!prodForm.valid">Add</button> -->
         <button mat-raised-button color="accent" (click)="addProduct(prodForm.value)" [disabled]="!prodForm.valid">Add</button>
 
 
       </form>
+      <br/>
+      <br/>
+      <div class="success" *ngIf="messageSuc">
+        <h3>{{ messageSuc }}</h3>
+      </div>
+      <div class="alert-danger" *ngIf="messageErr">
+        <h3>{{ messageErr }}</h3>
+      </div>
     </div>
   </div>
 </div>

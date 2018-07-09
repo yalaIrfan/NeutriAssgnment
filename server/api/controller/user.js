@@ -25,6 +25,7 @@ exports.user_signup = (req, res, next) => {
           const user = new User({
             _id: mongoose.Types.ObjectId(),
             email: req.body.email,
+            name: req.body.name,
             password: hash
           });
 
@@ -72,7 +73,7 @@ exports.user_login = function (req, res, next) {
 
           const token = jwt.sign({
               email: user[0].email,
-              userId: user[0]._id
+              //userId: user[0]._id
             },
             config.secret, {
               expiresIn: "1h"
@@ -80,7 +81,8 @@ exports.user_login = function (req, res, next) {
           );
           return res.status(200).json({
             message: 'Auth Successfull',
-            token: token
+            token: token,
+            user: user[0].name
           })
         }
 

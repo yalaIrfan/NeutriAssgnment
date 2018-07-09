@@ -6,6 +6,8 @@ module.exports = (req, res, next) => {
     console.log('HEADERS :: ', req.headers);
     console.log(req.headers['token']);
     const decoded = jwt.verify(req.headers['token'].split(' ')[1], config.secret);
+    console.log('Decoded ', decoded);
+    req.userData = decoded;
     next();
 
   } catch (err) {

@@ -13,10 +13,9 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import {
   MatToolbarModule, MatButtonModule, MatCardModule,
-  MatInputModule, MatDialogModule, MatTableModule,MatGridListModule,
+  MatInputModule, MatDialogModule, MatTableModule, MatGridListModule,
 } from '@angular/material';
 import { MatListModule } from '@angular/material/list';
 
@@ -28,6 +27,7 @@ import { FileValueAccessor } from './shared/fileValue';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload'
 import { AuthInterceptor } from './auth-gaurd/auth.intercepter';
 import { RegisterComponent } from './register/register.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -39,7 +39,7 @@ import { RegisterComponent } from './register/register.component';
     FileValidator,
     FileValueAccessor,
     FileSelectDirective,
-    RegisterComponent,
+    RegisterComponent
 
   ],
   imports: [
@@ -48,17 +48,18 @@ import { RegisterComponent } from './register/register.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    FormsModule,
     ReactiveFormsModule,
     MatCheckboxModule,
     MatTabsModule,
-    MatFormFieldModule,MatGridListModule ,
+    MatFormFieldModule, MatGridListModule,
     MatListModule,
     MatToolbarModule, MatButtonModule, MatCardModule,
     MatInputModule, MatDialogModule, MatTableModule,
     HttpModule,
     HttpClientModule,
   ],
-  providers: [AuthGuard,ToastrService,
+  providers: [AuthGuard, ToastrService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -1,3 +1,17 @@
+.alert-danger {
+  background: rgb(233, 140, 140);
+  text-align: center;
+  padding: 0.1%;
+  margin: 0.1%;
+}
+
+.success {
+  text-align: center;
+  background: rgb(131, 230, 153);
+  padding: 0.1%;
+  margin: 0.1%;
+}
+
 .example-icon {
   padding: 0 14px;
 }

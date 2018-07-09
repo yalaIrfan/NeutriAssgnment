@@ -25,6 +25,9 @@ export class ProductComponent implements OnInit {
   products: Product[] = [];
   prodForm: FormGroup;
   file: File;
+  messageSuc: string = '';
+  messageErr: string = '';
+  noRec = '';
   attchMent: any = [];
   selectedFile: any;
   authonticated: string;
@@ -33,9 +36,12 @@ export class ProductComponent implements OnInit {
 
   }
   uploader: FileUploader = new FileUploader({ url: url });
+  user: string = '';
   ngOnInit() {
 
     this.authonticated = localStorage.getItem('auth');
+    this.user = localStorage.getItem('user');
+
     this.getAllProducts();
     this.prodForm = this.fb.group({
       'name': [null, Validators.compose([
@@ -50,7 +56,11 @@ export class ProductComponent implements OnInit {
       'productImage': new FormControl("", [FileValidator.validate])
 
     });
-
+    if (this.products.length == 0) {
+      this.noRec = 'No records found.!'
+    } else {
+      this.noRec = ''
+    }
   }
 
   logout() {
@@ -69,7 +79,16 @@ export class ProductComponent implements OnInit {
     this.prodService.getAllProducts().subscribe((res) => {
       if (res) {
         this.products = res as any[];
+        this.noRec = '';
+
+        if (this.products.length == 0) {
+          this.noRec = 'No records found.!'
+        } else {
+          this.noRec = ''
+        }
       }
+      this.messageSuc = '';
+      this.messageErr = '';
 
     },
       err => {
@@ -81,6 +100,7 @@ export class ProductComponent implements OnInit {
 
   addProduct(form) {
     //this.uploader.queue[0].upload();
+    this.noRec = ''
     const fd = new FormData();
     fd.append('productImage', this.file, this.file.name);
     fd.append('name', form.name);
@@ -91,15 +111,20 @@ export class ProductComponent implements OnInit {
     let headers = new HttpHeaders({ 'token': `bearer ${token}` });
 
 
-   // this.http.post('/api/products', fd, { headers }).subscribe((res) => {
-       this.http.post('/api/products', fd).subscribe((res) => {
+    // this.http.post('/api/products', fd, { headers }).subscribe((res) => {
+    this.http.post('/api/products', fd).subscribe((res) => {
+      this.messageSuc = 'Product created..!';
+      this.route.navigate(['/product']);
 
-      this.toastr.success('Product Created', 'Success');
-      // this.prodForm.controls['productImage'].reset();
-      //this.prodForm.reset();
-      this.getAllProducts()
+      this.messageErr = '';
+      this.getAllProducts();
     },
       err => {
+        this.messageSuc = '';
+        this.route.navigate(['/product']);
+        this.getAllProducts();
+
+        this.messageErr = err.error.message;
         console.log('error while retriving products', err);
       }
     );

@@ -1,29 +1,56 @@
-
+<div class="success" *ngIf="messageSuc">
+  <h3>{{ messageSuc }}</h3>
+</div>
+<div class="alert-danger" *ngIf="messageErr">
+  <h3>{{ messageErr }}</h3>
+</div>
 <mat-card class="example-card ">
   <mat-card-header>
     <mat-card-title>
       <h3 style="color: blue">
-      Register
+        Register
       </h3>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="abc">
-    <form class="example-form" [formGroup]="regForm">
+    <form class="example-form" [formGroup]="logForm">
       <table class="example-full-width" cellspacing="0">
-        <!-- <input type="hidden" formControlName="isLogin" value="{{formType}}"> -->
+
+
         <tr>
           <td>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Username" formControlName="email" required>
+              <input matInput placeholder="Name" formControlName="name" required maxlength="50">
 
             </mat-form-field>
-            <div *ngIf="regForm.controls['email'].touched && regForm.controls['email'].invalid">
-              <div *ngIf="regForm.get('email').hasError('required')">
+            <div *ngIf="logForm.controls['name'].touched && logForm.controls['name'].invalid">
+              <div *ngIf="logForm.get('name').hasError('required')">
+                <span>
+                  <div class="fieldError"> Please enter a name. </div>
+                </span>
+              </div>
+              <div *ngIf="logForm.get('name').hasError('name') && !logForm.get('name').hasError('required')">
+                <span>
+                  <div class="fieldError"> Invalid name </div>
+                </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Email" formControlName="email" required maxlength="50">
+
+            </mat-form-field>
+            <div *ngIf="logForm.controls['email'].touched && logForm.controls['email'].invalid">
+              <div *ngIf="logForm.get('email').hasError('required')">
                 <span>
                   <div class="fieldError"> Please enter a email. </div>
                 </span>
               </div>
-              <div *ngIf="regForm.get('email').hasError('email') && !regForm.get('email').hasError('required')">
+              <div *ngIf="logForm.get('email').hasError('email') && !logForm.get('email').hasError('required')">
                 <span>
                   <div class="fieldError"> Invalid email </div>
                 </span>
@@ -31,59 +58,61 @@
             </div>
           </td>
         </tr>
+
         <tr>
           <td>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Password" type="password" formControlName="password" required>
+              <input matInput placeholder="Password" type="password" maxlength="20" formControlName="password" [formGroup]="logForm" required>
             </mat-form-field>
-            <div *ngIf="regForm.controls['password'].touched && regForm.controls['password'].invalid">
-              <div *ngIf="regForm.get('password').hasError('required')">
+            <div *ngIf="logForm.controls['password'].touched && logForm.controls['password'].invalid">
+              <div *ngIf="logForm.get('password').hasError('required')">
                 <span>
                   <div class="fieldError"> Please enter a password. </div>
                 </span>
               </div>
-              <div *ngIf="regForm.get('password').hasError('minlength')">
+              <div *ngIf="logForm.get('password').hasError('minlength')">
                 <span>
                   <div class="fieldError"> Password must be at least 5 characters long. </div>
                 </span>
+
               </div>
             </div>
 
           </td>
         </tr>
+
         <tr>
           <td>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Confirm Password" type="password" formControlName="ConfPassword" required>
+              <input matInput placeholder="Confirm Password" maxlength="20" [formGroup]="logForm" type="password" formControlName="confPassword"
+                required>
             </mat-form-field>
-            <div *ngIf="regForm.controls['ConfPassword'].touched && regForm.controls['ConfPassword'].invalid">
-              <div *ngIf="regForm.get('ConfPassword').hasError('required')">
+            <div *ngIf="logForm.controls['confPassword'].touched && logForm.controls['confPassword'].invalid">
+              <div *ngIf="logForm.get('confPassword').hasError('required')">
                 <span>
-                  <div class="fieldError"> Please enter a password. </div>
+                  <div class="fieldError"> Please Confirm password. </div>
                 </span>
               </div>
-              <div *ngIf="regForm.get('ConfPassword').hasError('minlength')">
-                <span>
-                  <div class="fieldError"> Password must be at least 5 characters long. </div>
-                </span>
-              </div>
+              <span style="background: rgb(243, 167, 167);" *ngIf="logForm.controls['confPassword'].touched && logForm.get('confPassword').hasError('notEqual') &&
+              !logForm.get('confPassword').hasError('required')">
+                Password and Confirm Password does not match
+              </span>
             </div>
 
+            <!-- <div class="alert-danger" *ngIf="logForm.get('confPassword').hasError('MutchPassword')">Password not match</div> -->
           </td>
         </tr>
+
       </table>
     </form>
 
   </mat-card-content>
   <mat-card-actions>
-  
-    <button mat-raised-button (click)="register(regForm.value)" color="primary">Register</button>
-    
+    <!-- <div *ngIf="!formType">
+      <button mat-raised-button (click)="loginOrReg(logForm.value)" color="primary">Register</button>
+    </div>
+    <div *ngIf="formType"> -->
+    <button mat-raised-button (click)="loginOrReg(logForm.value)" [disabled]="!logForm.valid" color="primary">Register</button>
+    <!-- </div> -->
   </mat-card-actions>
 </mat-card>
-
-
-
-<div *ngIf="messageReg!=''">
-  {{messageReg}}
-</div>

@@ -15,9 +15,8 @@ export class LoginRegComponent implements OnInit {
   logForm: FormGroup;
   @Input() formType: boolean = false;
   @Input() formTitle: string;
-  message: string = '';
-  messageReg: string = '';
-
+  messageSuc: string = '';
+  messageErr: string = '';
   auth: boolean = false;
   data: any;
   constructor(private fb: FormBuilder, private homeService: HomeService, private toastr: ToastrService,
@@ -29,7 +28,8 @@ export class LoginRegComponent implements OnInit {
       'email': [null, Validators.compose([
         Validators.required,
         Validators.maxLength(50),
-        Validators.email
+        Validators.email,
+        Validators.pattern('[^ @]*@[^ @]*')
       ])],
       'password': [null, Validators.compose([
         Validators.required,
@@ -40,42 +40,24 @@ export class LoginRegComponent implements OnInit {
   }
 
   loginOrReg(user) {
-    console.log('type of form ', this.formType);
-    if (!this.formType) {
-      console.log('1 user is ', user);
-      // false mean Register code
-      this.homeService.registerUser(user).subscribe((response) => {
-        console.log('3 .Registered.! message', JSON.stringify(response));
-        this.toastr.success('Registered successfully..!', 'Success');
-        this.logForm.reset();
-        this.toastr.success(this.message, 'Success');
-        this.route.navigate(['/home']);
-      }, error => {
-        this.logForm.reset();
-        this.toastr.error(error.error.message, 'failed');
-        console.log('4 .error while registering..!', error);
-      });
-    }
-    else {
-      // true mean Login code
-      this.homeService.login(user).subscribe((response) => {
-        console.log('Response message', (response));
-        //this.message = 'Logged in successfully..!';
-        this.auth = true;
-        this.data = response;
-        this.route.navigate(['/product']);
-        this.toastr.success(this.message, 'Success');
+    this.homeService.login(user).subscribe((response) => {
+      this.auth = true;
+      this.data = response;
+      this.route.navigate(['/product']);
 
-        localStorage.setItem('auth', 'true');
-        localStorage.setItem('token', response.token);
+      localStorage.setItem('user', response.user);
 
-        this.logForm.reset();
-      }, error => {
-        this.toastr.error(error.error.message, 'failed');
-        this.logForm.reset();
-        console.log('error while logging..!', error.error.message);
-      });
-    }
+      localStorage.setItem('auth', 'true');
+      localStorage.setItem('token', response.token);
+
+      this.logForm.reset();
+    }, error => {
+      this.logForm.reset();
+      this.messageSuc = '';
+      this.messageErr = error.error.message;
+    });
+
+
   }
 }
 
