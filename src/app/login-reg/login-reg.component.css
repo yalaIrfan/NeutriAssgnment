@@ -1,0 +1,26 @@
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.example-card {
+  /* width: 400px; */
+  background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
+  margin: auto;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container>* {
+  width: 100%;
+}
+
+.example-full-width {
+  width: auto;
+}

@@ -1,0 +1,91 @@
+<div style="width: 100%;text-align: right">
+
+  <span *ngIf="authonticated=='true'" style="margin: 0.5%">
+    you are loggedin..! 
+  </span>&nbsp;
+  <button mat-raised-button color="primary" style="margin: 1%" (click)="logout()">Logout </button>
+  
+</div>
+<div class="main">
+  <div style="width: 70%">
+    <div *ngIf="products">
+    
+      <mat-grid-list cols="2" rowHeight="1:1">
+          <mat-grid-tile  *ngFor="let p of products;let i=index">
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>  {{p.name}}</mat-card-title>
+   
+  </mat-card-header>
+  <img mat-card-image src="{{p.productImage}}" style="width:100%">
+
+  <mat-card-actions>
+   
+<a mat-stroked-button routerLink=".">{{p.price}}&nbsp;$</a>
+  </mat-card-actions>
+</mat-card>
+</mat-grid-tile>
+</mat-grid-list>
+
+    </div>
+    <div *ngIf="!products">
+      <h3>No products found..!</h3>
+    </div>
+
+  </div>
+
+  <div style="width: 30%;height: auto">
+    <div style="height: 50%;line-height: 15px;padding: 1%">
+      <button mat-raised-button color="warn" >New Product</button>
+
+      <!-- <form class="example-form"> -->
+      <form class="example-form" [formGroup]="prodForm">
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Product name" formControlName="name" required>
+        </mat-form-field>
+        <div *ngIf="prodForm.controls['name'].touched && prodForm.controls['name'].invalid">
+          <div *ngIf="prodForm.get('name').hasError('required')">
+            <span>
+              <div class="fieldError"> Please enter a name. </div>
+            </span>
+          </div>
+          <div *ngIf="prodForm.get('name').hasError('name') && !prodForm.get('name').hasError('required')">
+            <span>
+              <div class="fieldError"> Invalid name </div>
+            </span>
+          </div>
+        </div>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Price" formControlName="price" type="number" required>
+        </mat-form-field>
+        <div *ngIf="prodForm.controls['price'].touched && prodForm.controls['price'].invalid">
+          <div *ngIf="prodForm.get('price').hasError('required')">
+            <span>
+              <div class="fieldError"> Please enter a price. </div>
+            </span>
+          </div>
+          <div *ngIf="prodForm.get('price').hasError('price') && !prodForm.get('price').hasError('required')">
+            <span>
+              <div class="fieldError"> Invalid price </div>
+            </span>
+          </div>
+        </div>
+        <br/>
+        <div class="example-full-width">
+
+          <input type="file" placeholder="Product Image only jpag or png files" accept="image/*" ng2FileSelect [uploader]="uploader"
+            (change)="onFileChange($event)" formControlName="productImage">
+
+        </div>
+        <br/>
+
+
+        <!-- <button mat-raised-button (click)="addProduct(prodForm.value)" [disabled]="!prodForm.valid">Add</button> -->
+        <button mat-raised-button color="accent" (click)="addProduct(prodForm.value)" [disabled]="!prodForm.valid">Add</button>
+
+
+      </form>
+    </div>
+  </div>
+</div>
